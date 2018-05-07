@@ -1,0 +1,128 @@
+body, html { font-size: 100%; 	padding: 0; margin: 0;}
+
+/* Reset */
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+body{
+	
+	
+	font-weight: 500;
+	font-size: 100%;
+	font-family: "Microsoft YaHei","Segoe UI", "Lucida Grande", Helvetica, Arial,sans-serif;
+}
+h1{
+	font-family: �����п�;
+	color:rgb(65, 62, 35);
+}
+
+a{ color: rgba(255, 255, 255, 0.6);
+	outline: none;
+	text-decoration: none;
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+a:hover,a:focus{
+	color:#74777b;
+	text-decoration: none;
+}
+.navbar-brand{
+		    padding: 29px 15px;
+		    height: auto;
+		}
+		nav.navbar.bootsnav{
+		    border: none;
+		    
+		    background-color:#99CCCC;
+		}
+		.navbar-header
+		{
+			padding-left: 20px;
+			color: #000;
+
+		}
+		.navbar-nav{
+		    float: left;
+		    text-align: center;
+
+		}
+		.dropdown-menu
+		{
+			
+		}
+		.navbar-nav li{
+		    text-align: center;
+		     	
+		}
+		nav.navbar.bootsnav ul.nav > li > a{
+		    color: #474747;
+		    padding: 30px;
+		    font-size: 20px;
+		    font-weight:thin;
+		}
+		ul li:hover > ul {
+  			display: block; 
+
+		}
+		nav.navbar.bootsnav ul.nav > li:hover{
+		    background: #DDDDDD;
+		}
+		nav.navbar.bootsnav ul.nav ul.dropdown-menu >li:hover{
+			background: #DDDDDD;
+		}
+		.nav > li:after{
+		    content: "";
+		    width: 0;
+		    height: 5px;
+		    background: #34c9dd;
+		    position: absolute;
+		    bottom: 0;
+		    left: 0;
+		    transition: all 0.5s ease 0s;
+		}
+		.nav > li:hover:after{
+		    width: 100%;
+		}
+		nav.navbar.bootsnav ul.nav > li.dropdown > a.dropdown-toggle:after{
+		    content: "\f107";
+		    font-family: 'FontAwesome';
+		    font-size: 16px;
+		    font-weight: 500;
+		    position: absolute;
+		    top: 35%;
+		    right: 10%;
+		    transition: all 0.4s ease 0s;
+		}
+		nav.navbar.bootsnav ul.nav > li.dropdown.on > a.dropdown-toggle:after{
+		    content: "\f107";
+		    transform: rotate(180deg);
+		}
+		.
+		nav.navbar.bootsnav li.dropdown ul.dropdown-menu{
+		    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+		    border: 2px;
+		    border-radius: 5px;
+		    
+		}
+		@media only screen and (max-width:990px;){
+		    nav.navbar.bootsnav ul.nav > li.dropdown > a.dropdown-toggle:after,
+		    nav.navbar.bootsnav ul.nav > li.dropdown.on > a.dropdown-toggle:after{ content: " "; }		    
+		    nav.navbar.bootsnav ul.nav > li:hover{ background: transparent; }
+		    nav.navbar.bootsnav ul.nav > li > a{ margin: 0; }
+		}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>就业分析平台</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- <script type="text/javascript" src="echarts.common.min.js"></script> -->
+    <!-- <script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>-->
+    <script type="text/javascript" src="https://unpkg.com/echarts@4.0.2/dist/echarts-en.min.js"></script>
+     <!-- <script type="text/javascript" src="/js/echarts.js"></script> -->
+    <script type="text/javascript" src="https://unpkg.com/echarts@4.0.2/map/js/china.js"></script>
+
+    <script src="js/link.js"  ></script>
+    <!--注意：该内联样式需要重新设计，这里只做演示-->
+    <style  type="text/css">
+      .secondTitleSelectedStyle
+      {
+        font-weight: blod;
+        border-style: solid;
+      }
+    </style>
+  </head>
+
+  <body onload="loadJson()">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">就业分析平台</a>
+        </div>
+
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar" id="title1">
+          </ul>
+
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div id="secondTitleShowPlace">
+          </div>
+          <div id="content"  style="height:800px；width:800px；">
+           
+          </div>
+          <div id="table1"  style="height:800px；width:800px；">
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="js/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--   <script src="js/ie10-viewport-bug-workaround.js"></script> -->
+  </body>
+</html>

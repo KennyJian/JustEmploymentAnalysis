@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.just.dao.UserMapperDao">
+    <select id="findAll" resultType="org.just.entity.User">
+        select * from employment_01
+    </select>
+    <select id="getCount" parameterType="String" resultType="org.just.entity.Result">
+        SELECT ${_parameter} as thekey,COUNT(*) as value FROM employment_01 GROUP BY ${_parameter}
+    </select>
+    <select id="getSexCount" resultType="org.just.entity.Result">
+       SELECT sex as thekey,COUNT(*) as value FROM employment_01 GROUP BY sex
+    </select>
+    <select id="getCollegeCount" resultType="org.just.entity.Result">
+       SELECT college as thekey,COUNT(*) as value FROM employment_01 GROUP BY college
+    </select>
+    <select id="getNationCount" resultType="org.just.entity.Result">
+       SELECT nation as thekey,COUNT(*) as value FROM employment_01 GROUP BY nation
+    </select>
+    <select id="getEmployedCount" resultType="org.just.entity.Result">
+       SELECT employment_category as thekey,COUNT(*) as value FROM employment_01 GROUP BY employment_category
+    </select>
+    <select id="getEmployStatusCount" resultType="org.just.entity.Result">
+       SELECT employment_status as thekey,COUNT(*) as value FROM employment_01 GROUP BY employment_status
+    </select>
+    <select id="getStudentInCount" resultType="org.just.entity.Result">
+       SELECT student_in as thekey,COUNT(*) as value FROM employment_01 GROUP BY student_in
+    </select>
+    <select id="getgraduateStudentCount" resultType="org.just.entity.Result">
+             SELECT major as thekey,COUNT(*) as value FROM employment_01   group by major
+   
+    </select>
+    <select  id="findCollegeGraduate" resultType="org.just.entity.Major">
+          SELECT college as college,major as major,count(*) as graduate_count  FROM employment_01 group by major;
+    </select>
+    <select  id="findCollegeEmployement" resultType="org.just.entity.Major">
+         SELECT  major as major , count(*) as employment_count FROM employment_01 where (employment_status='就业' or employment_status='灵活就业' ) group by major       
+    </select>
+    <select  id="findBusinessGraduate" resultType="org.just.entity.Major">
+SELECT college as business_college,major as business_major,count(*) as business_graduate_count  FROM employment_01 where college = some( select college from employment_01 where college="商学院")group by major;
+    </select>
+    
+    <select  id="findBusinessEmployement" resultType="org.just.entity.Major">
+SELECT  major as business_major,count(*) as business_employment_count FROM employment_01 where ((employment_status='就业' or employment_status='灵活就业' )and college="商学院") group by major;
+    </select>
+   <select  id="findTelecomGraduate" resultType="org.just.entity.Major">
+SELECT college as telecom_college,major as telecom_major,count(*) as telecom_graduate_count  FROM employment_01 where college = some( select college from employment_01 where college="电气与信息工程学院")group by major;
+    </select>
+    <select  id="findTelecomEmployement" resultType="org.just.entity.Major">
+SELECT  major as telecom_major,count(*) as telecom_employment_count FROM employment_01 where ((employment_status='就业' or employment_status='灵活就业' )and college="电气与信息工程学院") group by major;
+    </select>
+    <select  id="findElectricityGraduate" resultType="org.just.entity.Major">
+SELECT college as electricity_college,major as electricity_major,count(*) as electricity_graduate_count  FROM employment_01 where college = some( select college from employment_01 where college="机电与动力工程学院")group by major;
+    </select>
+    <select  id="findElectricityEmployement" resultType="org.just.entity.Major">
+SELECT  major as electricity_major,count(*) as electricity_employment_count FROM employment_01 where ((employment_status='就业' or employment_status='灵活就业' )and college="机电与动力工程学院") group by major;
+    </select>
+    <select  id="findEducationGraduate" resultType="org.just.entity.Major">
+SELECT college as education_college,major as education_major,count(*) as education_graduate_count  FROM employment_01 where college = some( select college from employment_01 where college="公共教育学院")group by major;
+    </select>
+    <select  id="findEducationEmployement" resultType="org.just.entity.Major">
+SELECT  major as education_major,count(*) as education_employment_count FROM employment_01 where ((employment_status='就业' or employment_status='灵活就业' )and college="公共教育学院") group by major;
+    </select>
+    <select  id="findShipGraduate" resultType="org.just.entity.Major">
+SELECT college as ship_college,major as ship_major,count(*) as ship_graduate_count  FROM employment_01 where college = some( select college from employment_01 where college="船舶与建筑工程学院")group by major;
+    </select>
+    <select  id="findShipEmployement" resultType="org.just.entity.Major">
+SELECT  major as ship_major,count(*) as ship_employment_count FROM employment_01 where ((employment_status='就业' or employment_status='灵活就业' )and college="船舶与建筑工程学院") group by major;
+    </select>
+    <select  id="findGoldGraduate" resultType="org.just.entity.Major">
+SELECT college as gold_college,major as gold_major,count(*) as gold_graduate_count  FROM employment_01 where college = some( select college from employment_01 where college="冶金与材料工程学院")group by major;
+    </select>
+    <select  id="findGoldEmployement" resultType="org.just.entity.Major">
+SELECT  major as gold_major,count(*) as gold_employment_count FROM employment_01 where ((employment_status='就业' or employment_status='灵活就业' )and college="冶金与材料工程学院") group by major;
+    </select>
+    <select  id="findBusinessData" resultType="org.just.entity.College">
+SELECT  college as business_college2,major as business_major2,count(*) as business_graduation,count(CASE WHEN employment_status='出国'  THEN 1 ELSE NULL END) as business_abroad,count(CASE WHEN employment_status='就业'  THEN 1 ELSE NULL END) as business_work,count(CASE WHEN employment_status='灵活就业'  THEN 1 ELSE NULL END) as business_agile,count(CASE WHEN employment_status='升学'  THEN 1 ELSE NULL END) as business_school FROM employment_01 where ( college="商学院") group by major;
+    </select>
+    <select  id="findEducationData" resultType="org.just.entity.College">
+SELECT  college as education_college2,major as education_major2,count(*) as education_graduation,count(CASE WHEN employment_status='出国'  THEN 1 ELSE NULL END) as education_abroad,count(CASE WHEN employment_status='就业'  THEN 1 ELSE NULL END) as education_work,count(CASE WHEN employment_status='灵活就业'  THEN 1 ELSE NULL END) as education_agile,count(CASE WHEN employment_status='升学'  THEN 1 ELSE NULL END) as education_school FROM employment_01 where ( college="公共教育学院") group by major;
+     </select>
+     <select  id="findShipData" resultType="org.just.entity.College">
+SELECT college as ship_college2,major as ship_major2,count(*) as ship_graduation,count(CASE WHEN employment_status='出国'  THEN 1 ELSE NULL END) as ship_abroad,count(CASE WHEN employment_status='就业'  THEN 1 ELSE NULL END) as ship_work,count(CASE WHEN employment_status='灵活就业' THEN 1 ELSE NULL END) as ship_agile,count(CASE WHEN employment_status='升学'  THEN 1 ELSE NULL END) as ship_school FROM employment_01 where ( college="船舶与建筑工程学院") group by major;
+    </select>
+    <select  id="findGoldData" resultType="org.just.entity.College">
+SELECT  college as gold_college2,major as gold_major2,count(*) as gold_graduation,count(CASE WHEN employment_status='出国'  THEN 1 ELSE NULL END) as gold_abroad,count(CASE WHEN employment_status='就业'  THEN 1 ELSE NULL END) as gold_work,count(CASE WHEN employment_status='灵活就业'  THEN 1 ELSE NULL END) as gold_agile,count(CASE WHEN employment_status='升学'  THEN 1 ELSE NULL END) as gold_school FROM employment_01 where ( college="冶金与材料工程学院") group by major;
+    </select>
+    <select  id="findElectricityData" resultType="org.just.entity.College">
+SELECT college as electricity_college2,major as electricity_major2,count(*) as electricity_graduation,count(CASE WHEN employment_status='出国' THEN 1 ELSE NULL END) as electricity_abroad,count(CASE WHEN employment_status='就业'  THEN 1 ELSE NULL END) as electricity_work,count(CASE WHEN employment_status='灵活就业'  THEN 1 ELSE NULL END) as electricity_agile,count(CASE WHEN employment_status='升学' THEN 1 ELSE NULL END) as electricity_school FROM employment_01 where ( college="电气与信息工程学院") group by major;
+    </select>
+    <select  id="findTelecomData" resultType="org.just.entity.College">
+SELECT  college as telecom_college2,major as telecom_major2,count(*) as telecom_graduation,count(CASE WHEN employment_status='出国'  THEN 1 ELSE NULL END) as telecom_abroad,count(CASE WHEN employment_status='就业'  THEN 1 ELSE NULL END) as telecom_work,count(CASE WHEN employment_status='灵活就业'  THEN 1 ELSE NULL END) as telecom_agile,count(CASE WHEN employment_status='升学'  THEN 1 ELSE NULL END) as telecom_school FROM employment_01 where ( college="机电与动力工程学院") group by major;
+    </select>
+    <select id="getActualaddressCount" resultType="org.just.entity.Result">
+       SELECT actual_address as thekey,COUNT(*) as value FROM employment_01 GROUP BY actual_address
+   </select>
+    
+    <select  id="findGradAndEmpByCollege"	parameterType="String"  resultType="org.just.entity.GradAndEmpCount">
+		SELECT college as college,major as major,count(*) as graduate_count,count(CASE WHEN employment_status='就业' or employment_status='灵活就业' THEN 1 ELSE NULL END) as employment_count, cast((count(CASE WHEN employment_status='就业' or employment_status='灵活就业' THEN 1 ELSE NULL END)/count(*)) as DECIMAL(2,2))  as scale FROM employment_01 where college=#{college} group by major;
+    </select>
+    <select  id="findGradAndEmpByCollegeAll"	parameterType="String"  resultType="org.just.entity.GradAndEmpCount">
+		SELECT college as college,major as major,count(*) as graduate_count,count(CASE WHEN employment_status='就业' or employment_status='灵活就业' THEN 1 ELSE NULL END) as employment_count, cast((count(CASE WHEN employment_status='就业' or employment_status='灵活就业' THEN 1 ELSE NULL END)/count(*)) as DECIMAL(2,2))  as scale FROM employment_01  group by major order by college;
+    </select>
+    <select  id="findAllDirection" resultType="org.just.entity.AllDirection">
+		SELECT  college as college,major as major,count(*) as graduation,count(CASE WHEN employment_status='升学'  THEN 1 ELSE NULL END) as school,cast(count(CASE WHEN employment_status='升学'  THEN 1 ELSE NULL END)/count(*) as decimal(2,2)) as school_scale,count(CASE WHEN employment_status='出国'  THEN 1 ELSE NULL END) as abroad,cast(count(CASE WHEN employment_status='出国'  THEN 1 ELSE NULL END)/count(*) as decimal(2,2)) as abroad_scale,count(CASE WHEN employment_status='就业'  THEN 1 ELSE NULL END) as work,cast(count(CASE WHEN employment_status='就业'  THEN 1 ELSE NULL END)/count(*) as decimal(2,2)) as work_scale,count(CASE WHEN employment_status='灵活就业'  THEN 1 ELSE NULL END) as agile,cast(count(CASE WHEN employment_status='灵活就业'  THEN 1 ELSE NULL END)/count(*) as decimal(2,2)) as agile_scale FROM employment_01  group by major order by college;
+    </select>
+       <select id="getToJiangSuCount" resultType="org.just.entity.Result">
+       SELECT actual_address as thekey,COUNT(*) as value FROM employment_01 where actual_address like '江苏省%' GROUP BY actual_address
+   </select>
+    </mapper>

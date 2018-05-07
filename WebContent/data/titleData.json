@@ -1,0 +1,107 @@
+[
+	{
+		"firTitle": "毕业生结构",
+		"data": [
+			{
+				"secTitle": "毕业生学院分布结构",
+				"addr": "collegeCount",
+				"type": "Histogram"
+			},
+			{
+				"secTitle": "毕业生生源地分布",
+				"addr": "studentInCount",
+				"type": "Map"
+			},
+			{
+				"secTitle": "毕业生性别结构",
+				"addr": "sexCount",
+				"type": "Pie"
+			},
+			{
+				"secTitle": "毕业生民族结构",
+				"addr": "nationCount",
+				"type": "Histogram"
+			}
+		]
+	},
+	{
+		"firTitle": "毕业生就业率",
+		"data": [
+			{
+				"secTitle": "分学院及专业就业率",
+				"addr": "allCollege.form"
+			},
+			{
+				"secTitle": "商学院专业就业率",
+				"addr": "business.form"
+			},
+			{
+				"secTitle": "电气与信息学院专业就业率",
+				"addr": "telecom.form"
+			},
+			{
+				"secTitle": "机电与动力学院专业就业率",
+				"addr": "electricity.form"
+			},
+			{
+				"secTitle": "冶金与材料工程学院专业就业率",
+				"addr": "gold.form"
+			},
+			{
+				"secTitle": "船舶与建筑工程学院专业就业率",
+				"addr": "ship.form"
+			},
+			{
+				"secTitle": "公共教育学院专业就业率",
+				"addr": "education.form"
+			}
+		]
+	},
+	{
+		"firTitle": "毕业工作及升学情况",
+		"data": [
+			{
+				"secTitle": "分学院及专业就业率",
+				"addr": "allCollege.form"
+			}
+		]
+	},
+	{
+		"firTitle": "毕业去向",
+		"data": [
+			{
+				"secTitle": "毕业去向分布图",
+				"addr": "employStatusCount",
+				"type": "Pie"
+			},
+			{
+				"secTitle": "毕业去向汇总表",
+				"addr": "college.form"
+			}
+		]
+	},
+	{
+		"firTitle": "就业情况",
+		"data": [
+			{
+				"secTitle": "就业地域（省）",
+				"addr": "actualaddressCount",
+				"type": "Table"
+				
+			},
+			{
+				"secTitle": "就业地域（城市）",
+				"addr": "allCollege.form"
+			},
+			{
+				"secTitle": "就业行业",
+				"addr": "jobPosition",
+				"type": "Pie"
+			},
+			{
+				"secTitle": "地方就业（待定）",
+				"addr": "allCollege.form"
+			}
+		]
+	}
+]

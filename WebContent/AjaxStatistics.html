@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>2017江苏科技大学招生就业数据分析平台</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- <script type="text/javascript" src="echarts.common.min.js"></script> -->
+<!-- <script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>-->
+<script type="text/javascript" src="https://unpkg.com/echarts@4.0.2/dist/echarts-en.min.js"></script> 
+ <!-- <script type="text/javascript" src="/js/echarts.js"></script> -->
+<script type="text/javascript" src="https://unpkg.com/echarts@4.0.2/map/js/china.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<script src="js/bootstrap.min.js"  ></script>
+<script src="js/app.7486d2202956570efe01.js"  ></script>
+<script src="js/manifest.3ad1d5771e9b13dbdad2.js"  ></script>
+<script src="js/vendor.d578b82e1ef4f2f9fdbc.js"  ></script>		
+<link rel="stylesheet" type="text/css" href="css/demo.css">
+<link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/app.e23a9693621d074bf4a1dd17b1880115.css">
+
+<script type="text/javascript">
+
+$(function(){
+	//全局可用的content对象
+	var content = document.getElementById("content");
+	//var myChart = echarts.init(document.getElementById('content'));
+	//show demo
+	$("#demo").click(function(){
+		$.ajax({
+			url:"ajaxStatistics/getAll.form",
+			type:"post",
+			dataType:"json",
+			success:function(allData){//result接受服务器返回的json内容
+				//首先调用该函数清楚表格
+				  clearTable();
+				clearChart();
+			
+				var myChart = getChart();
+				
+				var demoData=allData.slice(1,10);
+				console.log(demoData);
+				option = {
+							title: {
+									text: '获取所有数据演示,这只是一个演示,请在console中查看具体数据'
+							},
+					    xAxis: {
+					        type: 'category',
+					        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+					    },
+					    yAxis: {
+					        type: 'value'
+					    },
+					    series: [{
+					        data: [820, 932, 901, 934, 1290, 1330, 1320],
+					        type: 'line'
+					    }]
+					};
+				
+				myChart.setOption(option);
+				
+				
+			},
+			error:function(){
+				alert("数据加载失败");
+			}
+		});
+	});
+
+	//show sex count(饼图)
+	$("#showSexCount").click(function(){
+		$.ajax({
+			url:"ajaxStatistics/sexCount.form",
+			type:"post",
+			dataType:"json",
+			success:function(sexMap){//result接受服务器返回的json内容
+				//首先调用该函数清楚表格
+				  clearTable();
+				clearChart();
+			
+				var myChart = getChart();
+				var sexData=[];
+				var item;
+				for(var key in sexMap){
+					item = new Object;
+					item.name=key;
+					item.value=sexMap[key];
+					sexData.push(item);
+				}
+				//var thead = ["性别","人数"];
+				//createTable(sexMap,thead);
+
+				// 指定图表的配置项和数据
+				 var option = {
+				 	    backgroundColor: '#E0EEEE',
+				 	    title: {
+				 	        text: '毕业生性别结构',
+				 	        left: 'center',
+				 	        top: 20,
+				 	        textStyle: {
+				 	            color: '#000000'
+				        }
+				 	    },
+
+				 	    tooltip : {
+				 	        trigger: 'item',
+				 	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				 	    },
+				
+				 	    visualMap: {
+				 	        show: false,
+				 	        min: 80,
+				 	        max: 600,
+				 	        inRange: {
+				 	            colorLightness: [0, 1]
+				 	        }
+				 	    },
+				 	   toolbox: {
+				 	        show : true,
+				 	        feature : {
+				 	          
+				 	            dataView : {show: true, readOnly: false},
+				 	            magicType : {
+				 	                show: true, 
+				 	                type: ['pie', 'funnel'],
+				 	                option: {
+				 	                    funnel: {
+				 	                        x: '25%',
+				 	                        width: '50%',
+				 	                        funnelAlign: 'left',
+				 	                        max: 1548
+				 	                    }
+				 	                }
+				 	            },
+				 	            restore : {show: true},
+				 	            saveAsImage : {show: true}
+				 	        }
+				 	    },
+				 	    calculable : true,
+				 	    series : [
+				 	        {
+				 	            name:'性别结构',
+				 	            type:'pie',
+				 	            radius : '55%',
+				 	            center: ['50%', '50%'],
+				 	            data: sexData.sort(function (a, b) { return a.value - b.value; }),
+				 	            roseType: 'radius',
+				 	            label: {
+				 	                normal: {
+				 	                    textStyle: {
+				 	                        color: 'rgba(0,0,0,225 )'
+				 	                    }
+				 	                }
+				 	            },
+				 	            labelLine: {
+				 	                normal: {
+				 	                    lineStyle: {
+				 	                        color: 'rgba(0,0,0,200 )'
+				 	                    },
+				 	                    smooth: 0.2,
+				 	                    length: 10,
+				 	                    length2: 20
+				 	                }
+				 	            },
+				 	            itemStyle: {
+				 	                normal: {
+				 	                    color: '#98F5FF',
+				 	                    shadowBlur: 200,
+				 	                    shadowColor: 'rgba(0, 0, 0, 0.2)'
+				 	                }
+				 	            },
+			 	            animationType: 'scale',
+				 	            animationEasing: 'elasticOut',
+				 	            animationDelay: function (idx) {
+				 	                return Math.random() * 200;
+				 	            }
+				 	        }
+				 	    ]
+				 	};
+				 // 使用刚指定的配置项和数据显示图表。
+				 myChart.setOption(option);
+			},
+			error:function(){
+				alert("数据加载失败");
+			}
+		});
+	});
+
+	//show coolege count(柱状图)
+	$("#showCollegeCount").click(function(){
+		$.ajax({
+			url:"ajaxStatistics/collegeCount.form",
+			type:"post",
+			dataType:"json",
+			success:function(collegeMap){//result接受服务器返回的json内容
+				clearTable();
+				clearChart();
+				var myChart = getChart();
+				
+				var nameData=[];
+				var valueData=[];
+				for(var key in collegeMap){
+					nameData.push(key);
+					valueData.push(collegeMap[key]);
+				}
+				console.log(nameData);
+				console.log(valueData);
+				option = {
+						title: {
+								text: '毕业生学院分布',
+								left: 'center',
+								top: 20,
+								textStyle: {
+										color: '#ccc'
+								}
+						},
+						color: ['#3398DB'],
+						tooltip : {
+								trigger: 'axis',
+								axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+										type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+								}
+						},
+						grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '3%',
+								containLabel: true
+						},
+					  toolbox: {
+						        show : true,
+						        feature : {
+						            mark : {show: true},
+						            dataView : {show: true, readOnly: false},
+						            magicType : {show: true, type: ['line', 'bar']},
+						            restore : {show: true},
+						            saveAsImage : {show: true}
+						        }
+						    },
+						    calculable : true,
+						xAxis : [
+								{
+										type : 'category',
+										data : nameData,
+										axisTick: {
+												alignWithLabel: true
+										}
+								}
+						],
+						yAxis : [
+								{
+										type : 'value'
+								}
+						],
+						
+						series : [
+								{
+										name:'学院分布',
+										type:'bar',
+										barWidth: '60%',
+										data: valueData,
+										barWidth:25,    //柱状图设置粗细
+										label : {  //设置数字显示
+											show: true,
+											position: 'top',
+									    	color: 'black'
+											
+											
+										}
+								},
+								{
+
+									name:'学院分布',
+									type:'line',
+									itemStyle :{
+										normal :{
+											color:'#FF0000'
+										}
+									},									
+									data: valueData,
+																
+									
+								}
+								
+								
+						],
+						
+						 
+				};
+				myChart.setOption(option);
+			},
+			error:function(){
+				alert("数据加载失败");
+			}
+		});
+	});
+
+	//show nation count(柱状图)
+	$("#showNationCount").click(function(){
+		$.ajax({
+			url:"ajaxStatistics/nationCount.form",
+			type:"post",
+			dataType:"json",
+			success:function(nationMap){//result接受服务器返回的json内容
+				clearTable();
+				clearChart();
+				var myChart = getChart();
+				
+				var nameData=[];
+				var valueData=[];
+				for(var key in nationMap){
+					nameData.push(key);
+					valueData.push(nationMap[key]);
+				}
+				console.log(nameData);
+				console.log(valueData);
+				option = {
+						title: {
+								text: '毕业生民族结构',
+								left: 'center',
+								top: 20,
+								textStyle: {
+										color: '#ccc'
+								}
+						},
+						color: ['#3398DB'],
+						tooltip : {
+								trigger: 'axis',
+								axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+										type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+								}
+						},
+						grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '3%',
+								containLabel: true
+						},
+						   toolbox: {
+						        show : true,
+						        feature : {
+						            mark : {show: true},
+						            dataView : {show: true, readOnly: false},
+						            magicType : {show: true, type: ['line']},
+						            restore : {show: true},
+						            saveAsImage : {show: true}
+						        }
+						    },
+						    calculable : true,
+						xAxis : [
+								{
+										type : 'category',
+										data : nameData,
+										axisTick: {
+												alignWithLabel: true
+										}
+								}
+						],
+						yAxis : [
+								{
+										type : 'value'
+								}
+						],
+						series : [
+								{
+										name:'民族结构',
+										type:'bar',
+										barWidth: '60%',
+										data: valueData,
+										barWidth:25,    //柱状图设置粗细
+										label : {  //设置数字显示
+											show: true,
+											position: 'top',
+									    	color: 'black'
+																					
+										}
+								},
+								{
+									name:'民族结构',
+									type:'line',
+									data: valueData,
+								    color:"#FF0000"
+									
+									
+							}
+							
+							
+						]
+				};
+				myChart.setOption(option);
+			},
+			error:function(){
+				alert("数据加载失败");
+			}
+		});
+	});
+
+	//show employ status count(饼图)
+	$("#showEmployStatusCount").click(function(){
+		$.ajax({
+			url:"ajaxStatistics/employStatusCount.form",
+			type:"post",
+			dataType:"json",
+			success:function(employStatusMap){//result接受服务器返回的json内容
+				//var thead=["就业方向","人数"];
+				//createTable(employStatusMap,thead);
+				clearTable();
+				clearChart();
+				var myChart = getChart();
+				
+				var employStatusData=[];
+				var item;
+				for(var key in employStatusMap){
+					item = new Object;
+					item.name=key;
+					item.value=employStatusMap[key];
+					employStatusData.push(item);
+				}
+				console.log(employStatusData);
+				// 指定图表的配置项和数据
+				var option = {
+					    title : {
+					        text: '去向分布图',					        
+					        x:'center'
+					    },
+					    tooltip : {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b} : {c} ({d}%)"
+					    },
+					    series : [
+					        {
+					            name: '去向分布',
+					            type: 'pie',
+					            radius : '55%',
+					            center: ['40%', '50%'],
+					            data: employStatusData,
+					            itemStyle: {
+					                emphasis: {
+					                    shadowBlur: 10,
+					                    shadowOffsetX: 0,
+					                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+					                }
+					            }
+					        }
+					    ]
+					};
+
+				// 使用刚指定的配置项和数据显示图表。
+				myChart.setOption(option);
+			},
+			error:function(){
+				alert("数据加载失败");
+			}
+		});
+	});
+
+	//show student in count(地图)
+	
+	
+	$("#showStudentInCount").click(function(){
+		$.ajax({
+			url:"ajaxStatistics/studentInCount.form",
+			type:"post",
+			dataType:"json",
+			success:function(studentInMap){//result接受服务器返回的json内容
+				clearTable();
+				clearChart();
+      
+				var myChart = getChart();
+				
+				var mapdata=[];
+				var item;
+				for(var key in studentInMap){
+					item = new Object;
+					item['name']=key;
+					item['value']=studentInMap[key];
+					mapdata.push(item);
+				}
+				console.log(mapdata);
+
+/* 		    var option = {
+		    	    tooltip: {
+		    	        trigger: 'item',
+		    	        formatter: '{b}'
+		    	    },
+		    	    toolbox: {
+				        show : true,
+				        feature : {
+				            mark : {show: true},
+				            dataView : {show: true, readOnly: false},
+				            magicType : {show: true},
+				            restore : {show: true},
+				            saveAsImage : {show: true}
+				        }
+				    },
+				    calculable : true,
+		    	    series: [
+		    	        {
+		    	            name: '中国',
+		    	            type: 'map',
+		    	            mapType: 'china',
+		    	            selectedMode : 'multiple',
+		    	            label: {
+		    	                normal: {
+		    	                    show: true
+		    	                },
+		    	                emphasis: {
+		    	                    show: true
+		    	                }
+		    	            },
+		    	            data:mapdata
+		    	                
+		    	            
+		    	        }
+		    	    ]
+		    	}; */
+ 				var option = {
+					    title: {
+					        text: '毕业生生源地分布',
+					        left: 'center'
+					    },
+					    tooltip: {
+					        trigger: 'item'
+					    },
+					    legend: {
+					        orient: 'vertical',
+					        left: 'left',
+					        data:['mapdata']
+					    },
+					     visualMap: {
+					        min: 0,
+					        max: 2500,
+					    
+					        text: ['高','低'],           // 文本，默认为数值文本
+					        calculable: true
+					    }, 
+					    toolbox: {
+					        show: true,
+					        orient: 'vertical',
+					        left: 'right',
+					        top: 'center',
+					        feature: {
+					            dataView: {readOnly: false},
+					            restore: {},
+					            saveAsImage: {}
+					        }
+					    },
+					   
+					    series: [
+					        {
+					            name: '生源地分布',
+					            type: 'map',
+					            mapType: 'china',
+					            label: {
+					                normal: {
+					                    show: true
+					                },
+					                emphasis: {
+					                    show: true
+					                }
+					            },
+					            data: mapdata
+					        }
+					    ]
+					};
+
+				myChart.setOption(option); 
+			// var option = {
+			//     backgroundColor: '#404a59',
+			//     title: {
+			//         text: '全国主要城市空气质量',
+			//         subtext: 'data from PM25.in',
+			//         sublink: 'http://www.pm25.in',
+			//         left: 'center',
+			//         textStyle: {
+			//             color: '#fff'
+			//         }
+			//     },
+			//     tooltip : {
+			//         trigger: 'item'
+			//     },
+			//     bmap: {
+			//         center: [104.114129, 37.550339],
+			//         zoom: 5,
+			//         roam: true,
+			//         mapStyle: {
+			//             styleJson: [
+			//                     {
+			//                         "featureType": "water",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "color": "#044161"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "land",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "color": "#004981"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "boundary",
+			//                         "elementType": "geometry",
+			//                         "stylers": {
+			//                             "color": "#064f85"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "railway",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "visibility": "off"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "highway",
+			//                         "elementType": "geometry",
+			//                         "stylers": {
+			//                             "color": "#004981"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "highway",
+			//                         "elementType": "geometry.fill",
+			//                         "stylers": {
+			//                             "color": "#005b96",
+			//                             "lightness": 1
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "highway",
+			//                         "elementType": "labels",
+			//                         "stylers": {
+			//                             "visibility": "off"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "arterial",
+			//                         "elementType": "geometry",
+			//                         "stylers": {
+			//                             "color": "#004981"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "arterial",
+			//                         "elementType": "geometry.fill",
+			//                         "stylers": {
+			//                             "color": "#00508b"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "poi",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "visibility": "off"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "green",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "color": "#056197",
+			//                             "visibility": "off"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "subway",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "visibility": "off"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "manmade",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "visibility": "off"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "local",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "visibility": "off"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "arterial",
+			//                         "elementType": "labels",
+			//                         "stylers": {
+			//                             "visibility": "off"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "boundary",
+			//                         "elementType": "geometry.fill",
+			//                         "stylers": {
+			//                             "color": "#029fd4"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "building",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "color": "#1a5787"
+			//                         }
+			//                     },
+			//                     {
+			//                         "featureType": "label",
+			//                         "elementType": "all",
+			//                         "stylers": {
+			//                             "visibility": "off"
+			//                         }
+			//                     }
+			//             ]
+			//         }
+			//     },
+			//     series : [
+			//         {
+			//             name: 'Top 5',
+			//             type: 'effectScatter',
+			//             coordinateSystem: 'bmap',
+			//             data: convertData(data.sort(function (a, b) {
+			//                 return b.value - a.value;
+			//             }).slice(0, 6)),
+			//             symbolSize: function (val) {
+			//                 return val[2] / 10;
+			//             },
+			//             showEffectOn: 'emphasis',
+			//             rippleEffect: {
+			//                 brushType: 'stroke'
+			//             },
+			//             hoverAnimation: true,
+			//             label: {
+			//                 normal: {
+			//                     formatter: '{b}',
+			//                     position: 'right',
+			//                     show: true
+			//                 }
+			//             },
+			//             itemStyle: {
+			//                 normal: {
+			//                     color: '#f4e925',
+			//                     shadowBlur: 10,
+			//                     shadowColor: '#333'
+			//                 }
+			//             },
+			//             zlevel: 1
+			//         }
+			//     ]
+			// };
+    //
+			 myChart.setOption(option);
+    
+			},
+			error:function(){
+				alert("数据加载失败");s
+			}
+		});
+	});
+	$("#showActualaddressCount").click(function(){
+		$.ajax({
+			url:"ajaxStatistics/actualaddressCount.form",
+			type:"post",
+			dataType:"json",
+			success:function(actualaddressMap){//result接受服务器返回的json内容
+				clearTable();
+				clearChart();
+				alert("in showAcutal");
+				console.log(actualaddressMap);
+				createEmploymentTable(actualaddressMap);
+			},
+			error:function(){
+				alert("数据加载失败");
+			}
+		});
+	});
+
+});
+//清除表格类内容
+function clearTable(){
+	var table = document.getElementById("myTable");
+	if(table != null)content.removeChild(table);
+}
+//清除echarts类内容
+function clearChart(){
+	var chartContent = document.getElementById("chartContent");
+	if(chartContent != null)content.removeChild(chartContent);
+}
+//创建新的echarts容器(定高宽的div)
+function getChart(){
+	var chartContent = document.createElement("div");
+	chartContent.setAttribute("id","chartContent");
+	chartContent.style.height="500px";
+	chartContent.style.width="1000px";
+	content.appendChild(chartContent);
+	return  echarts.init(document.getElementById('chartContent'));
+}
+//求和
+var totalEmployment = 0;
+function countTotalEmployment(jsonData){
+	for(var p in jsonData){
+		var x = parseInt(jsonData[p]);
+		totalEmployment += x;
+		alert("total:" + totalEmployment);
+	}
+
+	console.log(totalEmployment);
+}
+
+//省市的表格方法的调用
+function createEmploymentTable(jsonData){
+	console.log(jsonData);
+	countTotalEmployment(jsonData);
+	clearTable();
+	var table = document.createElement("table");
+	table.setAttribute("id","myTable");
+	table.setAttribute("class","table table-striped");
+	var tbody = document.createElement("tbody");
+   // for(let index in jsonData) {         
+    //	console.log("in for:");
+    //	console.log( jsonData[index]);
+		for(var p in jsonData){
+			var tr = document.createElement("tr");
+			var td_province = document.createElement("td");
+			td_province.innerHTML = p;
+			//alert(p.name);
+			
+			var td_value = document.createElement("td");
+			td_value.innerHTML = jsonData[p];
+			//alert(p.value);
+			
+			var td_radio = document.createElement("td");
+			var x = parseInt(jsonData[p]);
+			td_radio.innerHTML = (Math.round(x / totalEmployment * 10000) / 100.00 + "%");
+			tr.appendChild(td_province);
+			tr.appendChild(td_value);
+			tr.appendChild(td_radio);
+			tbody.appendChild(tr);
+		}
+    
+	table.appendChild(tbody);
+	//插入整个table
+	content.appendChild(table);
+}
+
+//创建表格，参数jsonData是json,tableHead是表头组成的数组
+function createTable(jsonData,tableHead){
+	clearTable();
+	clearChart();
+	console.log(jsonData);
+	console.log(tableHead);
+	console.log(content);
+	//table
+	var table = document.createElement("table");
+	table.setAttribute("id","myTable");
+	table.setAttribute("class","table table-striped");
+	//caption
+	var caption = document.createElement("caption");
+	caption.innerHTML="就业去向";
+	table.appendChild(caption);
+	//thead
+	//thead.innerHTML="<tr><td>性别</td><td>人数</td></tr>";
+	var thead = document.createElement("thead");
+	var theadHTML="<tr>";
+	for(var item in tableHead){
+		theadHTML+="<td>";
+		theadHTML+=tableHead[item].toString();
+		theadHTML+="</td>";
+	}
+	theadHTML+="</tr>";
+	console.log(theadHTML);
+	thead.innerHTML=theadHTML;	
+	table.appendChild(thead);
+	
+	//tbody
+	var tbody = document.createElement("tbody");
+	for(var p in jsonData){
+		var tr = document.createElement("tr");
+		var td_key = document.createElement("td");
+		td_key.innerHTML=p.toString();
+		var td_value = document.createElement("td");
+		td_value.innerHTML=jsonData[p].toString();
+		tr.appendChild(td_key);
+		tr.appendChild(td_value);
+		tbody.appendChild(tr);
+	}
+	table.appendChild(tbody);
+	
+	//插入整个table
+	content.appendChild(table);
+}
+</script>
+</head>
+<body>
+<!-- 
+<input type="button" id="demo" value="测试">
+<input type="button" id="showSexCount" value="显示性别统计数据">
+<input type="button" id="showCollegeCount" value="显示学院统计数据">
+<input type="button" id="showNationCount" value="显示民族分布统计数据">
+<input type="button" id="showEmployedCount" value="显示就业统计数据">
+<input type="button" id="showEmployStatusCount" value="显示就业状态（就业去向）统计数据">
+<input type="button" id="showStudentInCount" value="显示生源地统计数据">
+<a href='user_list.form'><input type="button" id="userlist" value="显示就业数据全表" ></a>   
+<a href='test.form'><input type="button" id="test" value="测试" ></a>   
+<div id="content"  style="height:1000px;width:500px;"></div>
+ -->
+ <nav class="navbar navbar-default navbar-mobile bootsnav">
+	<div class="navbar-header">
+		<h1 >2017江苏科技大学招生就业数据分析平台</h1>
+	</div><br />
+	<div class="collapse navbar-collapse" id="navbar-menu">
+		<ul class="nav navbar-nav" data-in="fadeInDown" data-out="fadeOutUp">
+			
+			<li><a href='user_list.form' id="userlist" >显示就业数据全表</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">毕业生结构</a>
+				<ul class="dropdown-menu">
+					<li><a id="showCollegeCount" href="#">毕业生学院分布结构</a></li>
+					<li ><a id="showStudentInCount" href="#">毕业生生源地分布</a></li>		
+					<li><a  id="showSexCount" href="#">毕业生性别结构</a></li>
+					<li><a  id="showNationCount" href="#">毕业生民族结构</a></li>
+
+				</ul>
+			</li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">毕业生就业率</a>
+				<ul class="dropdown-menu">
+					<li><a id="showEmployedCount"  href="#">分学院及专业就业率汇总</a></li>
+					<li><a href="allCollege.form">分学院及专业就业率</a></li>
+					<li><a href="business.form">商学院专业就业率</a></li>
+					<li><a href="telecom.form">电气与信息学院专业就业率</a></li>
+					<li><a href="electricity.form">机电与动力学院专业就业率</a></li>
+					<li><a href="gold.form">冶金与材料工程学院专业就业率</a></li>
+					<li><a href="ship.form">船舶与建筑工程学院专业就业率</a></li>
+					<li><a href="education.form">公共教育学院专业就业率</a></li>
+				</ul>
+			</li>
+			<li><a href="college.form">全校毕业工作及升学情况</a></li>
+			<li class="dropdown">
+	
+		   <a href="#" class="dropdown-toggle" data-toggle="dropdown">毕业去向</a>
+			<ul class="dropdown-menu">
+				<li><a id="showEmployStatusCount" href="#">毕业去向分布图</a></li>	
+				<li><a id="" href="college.form">毕业去向汇总表</a></li>
+			</ul>
+			</li>
+			<li class="dropdown">
+	
+		   <a href="#" class="dropdown-toggle" data-toggle="dropdown">就业情况</a>
+			<ul class="dropdown-menu">
+				<li><a id="showActualaddressCount" href="#">就业情况——就业地域（省）</a></li>	
+				<li><a id="" href="#">就业情况——就业地域（城市）</a></li>
+				<li><a id="" href="#">就业情况——就业行业</a></li>
+				<li><a id="" href="#">就业情况——地方就业（待定）</a></li>
+			</ul>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="content"  style="height:800px；width:800px；"></div>
+ 
+</body>
+</html>
